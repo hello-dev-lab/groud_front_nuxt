@@ -14,10 +14,10 @@
       </div>
 
       <!-- Charts and Project Risk -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6 bg-gray-100">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div class="lg:col-span-2 bg-white rounded shadow p-4">
           <h2 class="font-bold mb-2">Sales Analytics</h2>
-          <Linechart />
+          <!-- <Linechart /> -->
         </div>
         <div class="bg-white rounded shadow p-4">
           <h2 class="font-bold mb-2">Project Risk</h2>

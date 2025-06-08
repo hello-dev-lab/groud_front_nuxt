@@ -70,6 +70,8 @@
               <th class="border p-2">Original Price</th>
               <th class="border p-2">Description</th>
               <th class="border p-2">Category</th>
+              <th class="border p-2">createBy</th>
+              <th class="border p-2">updateBy</th>
               <th class="border p-2">Action</th>
             </tr>
           </thead>
@@ -84,10 +86,12 @@
                 <img :src="ImageURL + product.image_url" alt="..." class="h-16 mx-auto" />
               </td>
               <td class="border p-2">{{ product.name }}</td>
-              <td class="border p-2">₭{{ product.price.toFixed(2) }}</td>
-              <td class="border p-2">₭{{ product.original_price.toFixed(2) }}</td>
+              <td class="border p-2">₭{{ product.price.toFixed(3) }}</td>
+              <td class="border p-2">₭{{ product.original_price.toFixed(3) }}</td>
               <td class="border p-2">{{ product.description }}</td>
               <td class="border p-2">{{ product.category }}</td>
+              <td class="border p-2">{{ product.createBy }}</td>
+              <td class="border p-2">{{ product.updateBy }}</td>
               <td class="border p-2 text-blue-600 hover:underline cursor-pointer" @click="startEdit(product)">Edit</td>
             </tr>
           </tbody>

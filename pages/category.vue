@@ -52,6 +52,9 @@
                                 <th class="py-2">Category Name</th>
                                 <th class="py-2">Image</th>
                                 <th class="py-2">Created At</th>
+                                <th class="py-2">CreateBy</th>
+                                <th class="py-2">CreateBy</th>
+
                                 <th class="py-2 text-center">Actions</th>
                             </tr>
                         </thead>
@@ -64,6 +67,8 @@
                                     <img :src="ImageURL + category.image_url" alt="Category Image" class="w-20 h-16" />
                                 </td>
                                 <td class="py-2">{{ category.createdAt }}</td>
+                                <td class="py-2">{{ category.createBy }}</td>
+                                <td class="py-2">{{ category.updateBy }}</td>
                                 <td class="py-2 text-center space-x-2">
                                     <button class="text-blue-500 hover:underline"
                                         @click="startEdit(category)">Edit</button>
@@ -88,6 +93,8 @@ interface Category {
     categoryName: string
     image_url: string
     createdAt: string
+    createBy: string
+    updateBy: string
 }
 
 const categories = ref<Category[]>([])

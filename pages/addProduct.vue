@@ -6,7 +6,7 @@
       <!-- Image Upload -->
       <div>
         <label class="block text-sm font-medium mb-1">Upload Images</label>
-        <input type="file" @change="handleImageUpload" id="image" accept="image/*"
+        <input type="file" @change="handleImageUpload" accept="image/*"
           class="w-full mb-4 border rounded p-2" />
       </div>
 
@@ -60,31 +60,17 @@ import axios from 'axios'
 const base_url = 'http://192.168.69.246:4000'
 const router = useRouter()
 
-
 const form = ref({
   name: '',
   price: '',
   originalPrice: '',
   description: '',
-  category: '',
-  image: []
+  category: ''
 })
-const files = ref([])
-const previewUrls = ref([])
+
+const image = ref('')
 const categories = ref([])
 const errorMessage = ref('')
-const uploadSuccess = ref(false)
-const image = ref('')
-
-
-const handleFileChange = (event) => {
-  const target = event.target
-  if (!(target instanceof HTMLInputElement) || !target.files) return
-  files.value = Array.from(target.files)
-  previewUrls.value = files.value.map(file => URL.createObjectURL(file))
-  uploadSuccess.value = false
-  errorMessage.value = ''
-}
 
 async function handleImageUpload(event) {
   const target = event.target;
@@ -103,27 +89,27 @@ async function handleImageUpload(event) {
       }
     );
 
-    const uploadedFileName = response.data.fileNames[0];
-
+    const uploadedFileName = response.data.fileNames?.[0];
     if (uploadedFileName) {
       image.value = uploadedFileName;
     } else {
-      alert('Single image upload failed.');
+      alert('Image upload failed.');
     }
 
   } catch (error) {
-    console.error('Failed to upload file:', error);
-    alert('Single image upload failed.');
+    console.error('Image upload error:', error);
+    alert('Image upload failed.');
   }
 }
 
-
-
 const handleSubmit = async () => {
   if (!image.value) {
-    alert('Please upload at least one image.');
+    alert('Please upload an image.');
     return;
   }
+
+  const token = localStorage.getItem('token');
+  const AdminId = localStorage.getItem('firstName');
 
   const payload = {
     name: form.value.name,
@@ -131,28 +117,32 @@ const handleSubmit = async () => {
     original_price: form.value.originalPrice,
     description: form.value.description,
     category: form.value.category,
-    image_url: image.value
-  }
+    image_url: image.value,
+    createBy: AdminId,
+    updateBy: AdminId 
+  };
 
   try {
     const response = await fetch(`${base_url}/product`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
       body: JSON.stringify(payload)
-
-    })
+    });
+    
     if (response.ok) {
-      console.log(response)
-      console.log(payload)
-      alert('Product added successfully!')
-      router.push('/products')
+      alert('Product added successfully!');
+      router.push('/products');
     } else {
-      alert('Failed to add product.')
+      const errorData = await response.json();
+      alert(errorData.message || 'Failed to add product.');
     }
 
   } catch (err) {
-    alert('Failed to add product.')
-    errorMessage.value = 'Failed to add product.'
+    console.error('Submit error:', err);
+    errorMessage.value = 'Failed to add product.';
   }
 }
 
@@ -166,7 +156,6 @@ onMounted(async () => {
   }
 })
 
-// Navigate back
 const goBack = () => {
   router.push('/products')
 }

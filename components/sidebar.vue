@@ -6,7 +6,7 @@
     </div>
     <ul class="space-y-2">
       <li>
-        <NuxtLink to="/" class="block hover:bg-gray-700 p-2 rounded">
+        <NuxtLink to="/dashboard" class="block hover:bg-gray-700 p-2 rounded">
           Dashboard
         </NuxtLink>
       </li>
